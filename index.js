@@ -12,12 +12,33 @@ const fi = (function() {
       return collection
     },
 
-    map: function() {
+    map: function(collection, callback) {
 
+      const newArr = []
+      
+      if (!(collection instanceof Array)) {
+        collection = Object.values(collection)
+      }
+
+      for (let i = 0; i < collection.length; i++) {
+        newArr.push(callback(collection[i]))
+      }
+
+      return newArr
     },
 
-    reduce: function() {
+    reduce: function(collection, callback, acc) {
+      let newArr = []
+      newArr = collection
+      if (!acc) {
+        acc = newArr[0]
+        newArr = newArr.slice(1)
+      }
 
+      for (let i = 0; i < newArr.length; i++) {
+        acc = callback(acc, newArr[i], newArr)
+      }
+      return acc
     },
 
     functions: function() {
@@ -29,4 +50,4 @@ const fi = (function() {
 })()
 
 fi.libraryMethod()
-fi.each([1,2,2], alert())
+
